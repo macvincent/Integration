@@ -52,7 +52,7 @@ class DBWNode(object):
 
         rospy.Subscriber('/current_velocity', TwistStamped, self.update_currect_velocity)
         rospy.Subscriber('/twist_cmd', TwistStamped, self.update_twist_values)
-        ropsy.Subscriber('/vehicle/dbw_enabled', Bool, self.update_dbw_enabled)
+        rospy.Subscriber('/vehicle/dbw_enabled', Bool, self.update_dbw_enabled)
 
         self.controller = Controller(vehicle_mass, decel_limit, accel_limit, brake_deadband, wheel_radius, steer_ratio, max_lat_accel, max_steer_angle, wheel_base)
         self.dbw_enabled = False

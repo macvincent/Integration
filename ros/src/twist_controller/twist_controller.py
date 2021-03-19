@@ -1,4 +1,7 @@
 import rospy
+from yaw_controller import YawController
+from pid import PID
+from lowpass import LowPassFilter
 
 GAS_DENSITY = 2.858
 ONE_MPH = 0.44704
@@ -43,12 +46,12 @@ class Controller(object):
         currrent_throttle = self.throttle_control.step(velocity_error, elapsed_time)
         
         if linear_velocity == 0 and current_velocity < 0.1: #at a stop
-            throttle = 0
+            currrent_throttle = 0
             brake = 700
         elif throttle < 0.1 and velocity_error < 0:
-            throttle = 0
+            currrent_throttle = 0
             deceleration = max(velocity_error, self.decel_limit)
             brake = abs(deceleration) * self.vehicle_mass * self.wheel_radius
         
         # Return throttle, brake, steer
-        return throttle, brake, steer
+        return currrent_throttle, brake, steer

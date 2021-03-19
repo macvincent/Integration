@@ -48,7 +48,7 @@ class Controller(object):
         if linear_velocity == 0 and current_velocity < 0.1: #at a stop
             currrent_throttle = 0
             brake = 700
-        elif throttle < 0.1 and velocity_error < 0:
+        elif currrent_throttle < 0.1 and velocity_error < 0:
             currrent_throttle = 0
             deceleration = max(velocity_error, self.decel_limit)
             brake = abs(deceleration) * self.vehicle_mass * self.wheel_radius

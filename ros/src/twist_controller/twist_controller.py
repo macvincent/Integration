@@ -20,8 +20,8 @@ class Controller(object):
         ts = 0.02
         self.velocity_low_pass_filter = LowPassFilter(tau, ts)
 
-        self.yaw_control = YawController(wheel_base, steer_ratio, 0, max_lat_accel, max_steer_angle)
-        self.last_velocity = 0
+        self.yaw_control = YawController(wheel_base, steer_ratio, 0.1, max_lat_accel, max_steer_angle)
+        self.last_velocity = 0.0
         self.last_time = rospy.get_time()
         self.vehicle_mass = vehicle_mass
         self.decel_limit = decel_limit
@@ -30,7 +30,7 @@ class Controller(object):
     def control(self, current_velocity, dbw_enabled, linear_velocity, angular_velocity):
         if not dbw_enabled: #if manual is enabled, disable controller
             self.throttle_control.reset()
-            return 0, 0, 0 # Return throttle, brake, steer
+            return 0., 0., 0. # Return throttle, brake, steer
 
         brake = 0
         current_velocity = self.velocity_low_pass_filter.filt(current_velocity)

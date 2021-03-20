@@ -79,7 +79,7 @@ class DBWNode(object):
     
     def update_twist_values(self, msg):
         self.linear_velocity = msg.twist.linear.x
-        self.angular_velocity = msg.twist.linear.z
+        self.angular_velocity = msg.twist.angular.z
     
     def update_dbw_enabled(self, msg):
         self.dbw_enabled = msg

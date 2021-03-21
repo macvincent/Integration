@@ -33,13 +33,11 @@ class WaypointUpdater(object):
         rospy.Subscriber('/current_pose', PoseStamped, self.pose_cb)
         rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
 
-        # TODO: Add a subscriber for /traffic_waypoint and /obstacle_waypoint below
         rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
         # rospy.Subscriber('/obstacle_waypoint', Lane, self.obstacle_cb)
 
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
-        # TODO: Add other member variables you need below
         self.all_waypoints = None
         self.all_waypoints_2D = None
         self.waypoint_KD_tree = None
@@ -106,7 +104,6 @@ class WaypointUpdater(object):
             self.waypoint_KD_tree = KDTree(self.all_waypoints_2D)
 
     def traffic_cb(self, msg):
-        # Callback for /traffic_waypoint message. Implement
         self.stop_line_waypoint_index = msg.data
 
     def obstacle_cb(self, msg):

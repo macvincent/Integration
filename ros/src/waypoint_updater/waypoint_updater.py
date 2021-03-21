@@ -50,7 +50,7 @@ class WaypointUpdater(object):
     def loop(self):
         rate = rospy.Rate(50)
         while rospy.is_shutdown() is False:
-            if self.pose and self.all_waypoints:
+            if self.pose and self.all_waypoints and self.waypoint_KD_tree:
                 curr_closest_pos = self.get_closest_waypoint_pos()
                 self.publish_waypoints(curr_closest_pos)
                 rate.sleep()
@@ -61,7 +61,6 @@ class WaypointUpdater(object):
         lane.waypoints = self.all_waypoints.waypoints[closest_pos:farthest_waypoint]
 
         if not ((self.stop_line_waypoint_index == -1) or (self.stop_line_waypoint_index >= farthest_waypoint)):
-            rospy.logerr("got here2")
             lane.waypoints = self.decelerate_waypoints(lane.waypoints, closest_pos)
 
         self.final_waypoints_pub.publish(lane)
@@ -108,7 +107,7 @@ class WaypointUpdater(object):
 
     def traffic_cb(self, msg):
         # Callback for /traffic_waypoint message. Implement
-        self.stop_line_waypoint_index = msg
+        self.stop_line_waypoint_index = msg.data
 
     def obstacle_cb(self, msg):
         # TODO: Callback for /obstacle_waypoint message. We will implement it later
